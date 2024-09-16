@@ -22,7 +22,7 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  Wire.setWireTimeout(10000);
+  Wire.setTimeout(10000);
   mcp.begin();
 
   Serial.println();
