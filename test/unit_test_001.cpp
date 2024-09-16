@@ -31,7 +31,7 @@ unittest_setup()
   fprintf(stderr, "MCP3424_LIB_VERSION: %s\n", (char *) MCP3424_LIB_VERSION);
   
   Wire.begin();
-  Wire.setTimeout(10000);
+  //  Wire.setTimeout(10000);
 }
 
 unittest_teardown()
