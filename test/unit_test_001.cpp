@@ -93,7 +93,7 @@ unittest(test_channel)
   assertEqual(0, mcp.getChannel());
 
   //  out of range
-  assertFalse(mcp.getChannel(5));
+  assertFalse(mcp.setChannel(5));
 }
 
 
