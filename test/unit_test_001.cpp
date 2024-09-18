@@ -60,7 +60,7 @@ unittest(test_constructors)
   assertEqual(4,  mcp4.getMaxChannels());
   assertEqual(1,  mcp4.getGain());
   assertEqual(12, mcp4.getResolution());
-  assertEqual(0,  mcp4.getMode());
+  assertEqual(1,  mcp4.getMode());
 
   //  check MAX channels derived classes
   assertEqual(1, mcp1.getMaxChannels());
@@ -149,13 +149,13 @@ unittest(test_mode)
 {
   MCP3424 mcp;
 
-  assertEqual(0, mcp.getMode());
-
-  mcp.setSingleShotMode();
   assertEqual(1, mcp.getMode());
 
-  mcp.setContinuousMode();
+  mcp.setSingleShotMode();
   assertEqual(0, mcp.getMode());
+
+  mcp.setContinuousMode();
+  assertEqual(1, mcp.getMode());
 }
 
 
