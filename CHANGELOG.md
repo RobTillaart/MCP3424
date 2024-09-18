@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.1] - 2024-09-18
 - add derived classes for MCP3421/2/3/6/7/8
 - extend unit tests.
-- fix getMode() to return 1 or 0.
+- fixed **getMode()** to return 1 (continuous) or 0 (single shot).
+- fixed math of **floats readVolts()** et al.
 - update readme.md
 - minor edits
 

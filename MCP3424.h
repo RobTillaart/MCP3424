@@ -13,12 +13,6 @@
 #define MCP3424_LIB_VERSION               (F("0.1.1"))
 
 
-//  TODO
-//  - ERROR HANDLING
-//  - READ STATUS
-//  - CACHE LAST READ
-//
-
 class MCP3424
 {
 public:

@@ -175,8 +175,7 @@ This might be added in the future.
 #### Should
 
 - test on different boards.
-- optimize performance 
-  - same math in conversion to voltage (for consecutive reads)
+- optimize performance if possible
 - optimize setting all configuration in one function call.
   - **setConfig(channel, resolution, gain, mode)** ?
   - getter needed?
@@ -192,7 +191,9 @@ This might be added in the future.
 - extend examples
   - array of ADC's
   - mcp3424_plotter
-- add error checking on writeConfig.
+- add error handling
+  - checking on writeConfig.
+- cache last read value. (how about the wrappers?)
 
 #### Wont
 

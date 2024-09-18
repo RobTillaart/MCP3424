@@ -61,25 +61,22 @@ int32_t MCP3424::read()
 
 float MCP3424::readVolts()
 {
-  //  TODO
-  //  pre calculate float _factor = 15.625e-6 * pow(2, (_bits - 12))/ _gain;
-  return read() * 15.625e-6 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e-6 * (1L << (18 - _bits))) / _gain;
 }
 
 
 float MCP3424::readMilliVolts()
 {
-  return read() * 15.625e-3 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e-3 * (1L << (18 - _bits))) / _gain;
 }
 
 
 float MCP3424::readMicroVolts()
 {
-  return read() * 15.625e0 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e0 * (1L << (18 - _bits))) / _gain;
 }
 
 
-//  TODO move to derived class with more than one channel?
 bool MCP3424::setChannel(uint8_t channel)
 {
   if (channel >= _maxChannels)
@@ -99,7 +96,6 @@ bool MCP3424::setChannel(uint8_t channel)
 }
 
 
-//  TODO move to derived class with more than one channel?
 uint8_t MCP3424::getChannel()
 {
   return _channel;
