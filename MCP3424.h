@@ -50,12 +50,11 @@ public:
   uint8_t  getMode();
 
 
-private:
+protected:
   uint8_t   _maxChannels;
   uint8_t   _channel;
   uint8_t   _gain;
   uint8_t   _bits;
-  uint8_t   _mode;
   uint8_t   _config;
 
   uint8_t   _address;
@@ -63,6 +62,50 @@ private:
 
   int       writeConfig();
   int32_t   readRaw();
+};
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+class MCP3421 : public MCP3424
+{
+public:
+  MCP3421(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
+class MCP3422 : public MCP3424
+{
+public:
+  MCP3422(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
+class MCP3423 : public MCP3424
+{
+public:
+  MCP3423(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
+//
+//  max 16 bit
+//
+class MCP3426 : public MCP3424
+{
+public:
+  MCP3426(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
+class MCP3427 : public MCP3424
+{
+public:
+  MCP3427(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
+class MCP3428 : public MCP3424
+{
+public:
+  MCP3428(uint8_t address = 0x68, TwoWire *wire = &Wire);
 };
 
 

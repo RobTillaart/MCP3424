@@ -25,10 +25,13 @@ This library is to be used to configure and read the 18 bit MCP4324 4 channel AD
 The MCP3424 is not a fast ADC, however with 18 bit it has at least a very high 
 resolution. What the effects of the long sampling time means is to be investigated.
 The high resolution combined with an optional gain of 8x means one could 
-measure voltage in steps of about 2 µV
+measure voltage in steps of about 2 µV.
 
-The library has three functions that return a reading in volts, millivolts or 
-microvolts to match the need of the user.
+The library cannot check yet if a conversion is ready.
+Need hardware to check how this works in detail.
+
+The library has three functions that return a reading in Volts, milliVolts or 
+microVolts to match the need of the user.
 
 The user has to configure the ADC device (bits, gain) and can call
 **read()** (et al) without parameters to keep usage straightforward.
@@ -52,16 +55,26 @@ Alt-230 = µ
 The effective resolution also depends on the gain set.
 In theory with a gain of 8 the LSB of the 18 bit resolution represents 
 1/8 of 15.625 µV == 1.95 µV. 
-If this is feasible in practice is to be seen. 
+If this is feasible in practice is to be seen.
 
 
 ### I2C Address
 
-The MCP3421 has a fixed address 0x68, one can order different addresses at factory (how?).
+The MCP3421 and MCP3426 have a fixed address 0x68, one can order different 
+addresses at the factory (how?).
 
-TODO Table of addresses?
+The other devices have two address pins to set 8 addresses. The trick is
+to leave address pins floating. See datasheet table 5.3 for details.
 
-Max speed ? 400 KHz.
+
+### I2C Speed
+
+The MCP342x devices support 100 KHz, 400 KHz and 3.4 MHz.
+The latter is not (yet) supported by the library. 
+The sketch **MCP3424_performance.ino** can be used to get some insight
+in the performance. It will check up to 800 kHz.
+
+TODO verify with hardware.
 
 
 ### I2C multiplexing
@@ -99,13 +112,13 @@ too if they are behind the multiplexer.
 
 ### Constructor
 
-TODO other constructors.
-
-- **MCP3424(uint8_t address = 0x68, TwoWire \*wire = &Wire)** 
+- **MCP3424(uint8_t address = 0x68, TwoWire \*wire = &Wire)**
 - **bool begin()** initializes the device. POR?
 - **bool isConnected()** checks if the device address can be seen on I2C bus.
 - **uint8_t getAddress()** idem, convenience function.
 - **uint8_t getMaxChannels()** idem, convenience function.
+
+The MCP3421/2/3/6/7/8 constructors have the same parameters.
 
 
 ### Read
@@ -130,47 +143,55 @@ that it will take some time before the conversion with new settings is done.
 - **bool setChannel(uint8_t channel = 0)** not to be used for the MCP3421 as
 it has only one channel. Default is channel 0, parameter should be less than the 
 value of **getMaxChannels()**.
-- **uint8_t getChannel()** returns chosen channel, 0 based. e
+- **uint8_t getChannel()** returns chosen channel (default 0).
 - **bool setGain(uint8_t gain = 1)** set gain to 1,2,4, or 8. 
 Other values will return false and not change the setting.
 - **uint8_t getGain()** returns the set gain (default 1).
 - **bool setResolution(uint8_t bits = 12)** set the bit resolution 12,14,16 or 18.
 Other values will return false and not change the setting.
-- **uint8_t getResolution()** returns the set resolution.
+- **uint8_t getResolution()** returns the set resolution (default 12).
 - **void setContinuousMode()** idem.
 - **void setSingleShotMode()** idem.
-- **uint8_t getMode()** idem.
+- **uint8_t getMode()** returns 0 for singleShot and 1 for continuous.
 
 The set function write their changes directly to the device. It might be better
 to have one function to set all parameters in one call. To be investigated.
 
 The library caches the last configuration, it is not read back from the device.
+This might be added in the future.
 
 
 ## Future
 
 #### Must
 
+- investigate reading of ready flag
 - get hardware to test.
   - redo interface for MCP3424 if needed.
-- investigate ready flag
-- investigate continuous vs single shot.
+- investigate continuous vs single shot mode.
 - improve documentation
-
+  - Table of addresses.
 
 #### Should
 
-- implement support for (separate classes ?)
-  - 18 bit, MCP3421/MCP3422/MCP3423
-  - 16 bit: MCP3426/MCP3427/MCP3428 (no 18 bit so not 100% compatible)
 - test on different boards.
-- optimize performance (a lot of same math in conversion to voltage)
+- optimize performance 
+  - same math in conversion to voltage (for consecutive reads)
 - optimize setting all configuration in one function call.
-- PowerOnReset function for configuration
-
+  - **setConfig(channel, resolution, gain, mode)** ?
+  - getter needed?
+- implement PowerOnReset function for configuration
+- check performance I2C with HW
 
 #### Could
 
+- implement maxResolution (combine with maxChannels? in one "maxValue" byte)
+  - check range in setResolution().
+- extract gain and resolution from the config byte to reduce storage.
+  - like getMode().
+- extend examples
+  - array of ADC's
+  - mcp3424_plotter
 
 
 #### Wont

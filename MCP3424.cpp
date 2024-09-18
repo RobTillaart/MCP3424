@@ -23,8 +23,7 @@ MCP3424::MCP3424(uint8_t address, TwoWire *wire)
 
   _gain = 1;
   _bits = 12;
-  _mode = 0;  //  CONTINUOUS
-  _config = 0x10;
+  _config = 0x10;  //  default
 }
 
 
@@ -153,27 +152,28 @@ bool MCP3424::setResolution(uint8_t bits)
 
 uint8_t MCP3424::getResolution()
 {
+  //  return 12 + 2 * ((_config >> 2) & 0x03);
   return _bits;
 }
 
 
 void MCP3424::setContinuousMode()
 {
-  _config &= ~0x10;
+  _config |= 0x10;
   writeConfig();
 }
 
 
 void MCP3424::setSingleShotMode()
 {
-  _config |= 0x10;
+  _config &= ~0x10;
   writeConfig();
 }
 
 
 uint8_t MCP3424::getMode()
 {
-  return (_config & 0x10);
+  return (_config & 0x10) ? 1 : 0;
 }
 
 
@@ -224,6 +224,43 @@ int32_t MCP3424::readRaw()
   //  handle sign bit not needed.
   return rv;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+
+MCP3421::MCP3421(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 1;
+}
+
+MCP3422::MCP3422(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3423::MCP3423(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3426::MCP3426(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3427::MCP3427(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3428::MCP3428(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 4;
+}
+
 
 
 //  -- END OF FILE --
