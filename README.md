@@ -25,7 +25,7 @@ This library is to be used to configure and read the 18 bit MCP4324 4 channel AD
 The MCP3424 is not a fast ADC, however with 18 bit it has at least a very high 
 resolution. What the effects of the long sampling time means is to be investigated.
 The high resolution combined with an optional gain of 8x means one could 
-measure voltage in steps of about 2 µV.
+measure voltage in steps of about 2 ÂµV.
 
 The library cannot check yet if a conversion is ready.
 Need hardware to check how this works in detail.
@@ -40,7 +40,7 @@ Current implementation will probably change slightly in the future
 when related devices will be supported. (See future section).
 
 
-Alt-230 = µ
+Alt-230 = Âµ
 
 
 ### Resolution
@@ -48,13 +48,13 @@ Alt-230 = µ
 |  Bits  |  LSB (gain=1)  |  SPS   |     Raw range       |  Notes  |
 |:------:|---------------:|:------:|:-------------------:|:-------:|
 |   12   |          1 mV  |  240   |    -2048 .. 2047    |
-|   14   |        250 µV  |   60   |    -8192 .. 8191    |
-|   16   |       62.5 µV  |   15   |   -32768 .. 32767   |
-|   18   |     15.625 µV  |  3.75  |  -131072 .. 131071  |  not for 3426/27/28.
+|   14   |        250 ÂµV  |   60   |    -8192 .. 8191    |
+|   16   |       62.5 ÂµV  |   15   |   -32768 .. 32767   |
+|   18   |     15.625 ÂµV  |  3.75  |  -131072 .. 131071  |  not for 3426/27/28.
 
 The effective resolution also depends on the gain set.
 In theory with a gain of 8 the LSB of the 18 bit resolution represents 
-1/8 of 15.625 µV == 1.95 µV. 
+1/8 of 15.625 ÂµV == 1.95 ÂµV. 
 If this is feasible in practice is to be seen.
 
 
@@ -192,7 +192,7 @@ This might be added in the future.
 - extend examples
   - array of ADC's
   - mcp3424_plotter
-
+- add error checking on writeConfig.
 
 #### Wont
 

@@ -151,10 +151,10 @@ unittest(test_mode)
 
   assertEqual(0, mcp.getMode());
 
-  assertTrue(mcp.setSingleShotMode());
+  mcp.setSingleShotMode();
   assertEqual(1, mcp.getMode());
 
-  assertTrue(mcp.setContinuousMode());
+  mcp.setContinuousMode();
   assertEqual(0, mcp.getMode());
 }
 

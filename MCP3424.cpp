@@ -159,15 +159,21 @@ uint8_t MCP3424::getResolution()
 
 void MCP3424::setContinuousMode()
 {
-  _config |= 0x10;
-  writeConfig();
+  if (getMode() != 1)
+  {
+    _config |= 0x10;
+    writeConfig();
+  }
 }
 
 
 void MCP3424::setSingleShotMode()
 {
-  _config &= ~0x10;
-  writeConfig();
+  if (getMode() != 0)
+  {
+    _config &= ~0x10;
+    writeConfig();
+  }
 }
 
 
