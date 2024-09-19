@@ -59,6 +59,13 @@ int32_t MCP3424::read()
 }
 
 
+//  shift is to calculate the LSB factor.
+//  18 bits => 1,  LSB == 15.625 uV
+//  16 bits => 4,  LSB == 62.5 uV
+//  14 bits => 16, LSB == 250 uV
+//  12 bits => 64  LSB == 1000 uV = 1 mV
+//  must be multiplied to float first to prevent
+//       losing bits due to integer division
 float MCP3424::readVolts()
 {
   return read() * (15.625e-6 * (1L << (18 - _bits))) / _gain;
@@ -83,13 +90,15 @@ bool MCP3424::setChannel(uint8_t channel)
   {
     return false;
   }
+  //  only update if changed
   if (_channel != channel)
   {
     _channel = channel;
     _config &= 0x1F;  //  channel = 0
-    if (channel == 1) _config |= 0x20;
-    if (channel == 2) _config |= 0x40;
-    if (channel == 3) _config |= 0x60;
+    //  if (channel > 0) =>  _config |= (channel << 4)
+    if (channel == 1)      _config |= 0x20;
+    else if (channel == 2) _config |= 0x40;
+    else if (channel == 3) _config |= 0x60;
   }
   writeConfig();
   return true;
@@ -108,13 +117,14 @@ bool MCP3424::setGain(uint8_t gain)
   {
     return false;
   }
+  //  only update if changed.
   if (_gain != gain)
   {
     _gain = gain;
     _config &= 0xFC;  //  gain == 1
-    if (_gain == 2) _config |= 0x01;
-    if (_gain == 4) _config |= 0x02;
-    if (_gain == 8) _config |= 0x03;
+    if (_gain == 2)      _config |= 0x01;
+    else if (_gain == 4) _config |= 0x02;
+    else if (_gain == 8) _config |= 0x03;
     writeConfig();
   }
   return true;
@@ -133,13 +143,14 @@ bool MCP3424::setResolution(uint8_t bits)
   {
     return false;
   }
+  //  only update if changed.
   if (_bits != bits)
   {
     _bits = bits;
     _config &= 0xF3;  //  bits == 12
-    if (_bits == 14) _config |= 0x04;
-    if (_bits == 16) _config |= 0x08;
-    if (_bits == 18) _config |= 0x0C;
+    if (_bits == 14)      _config |= 0x04;
+    else if (_bits == 16) _config |= 0x08;
+    else if (_bits == 18) _config |= 0x0C;
     writeConfig();
   }
   return true;
