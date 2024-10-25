@@ -167,7 +167,7 @@ uint8_t MCP3424::getResolution()
 uint16_t MCP3424::getConversionDelay()
 {
   uint16_t  _interval[4] = { 5, 17, 67, 267 };
-  int idx = (_resolution - 12) / 2;  //  map 12-> 0 ... 18-> 3
+  int idx = (_bits - 12) / 2;  //  map 12-> 0 ... 18-> 3
   return _interval[idx];
 }
 
