@@ -211,6 +211,44 @@ int MCP3424::writeConfig()
 }
 
 
+/*
+//  Optimized readRaw, need test with hardware.
+
+//  status bit/byte is not read.
+int32_t MCP3424::readRaw()
+{
+  int32_t rv = 0;
+
+  uint8_t bitsToRead = 2;
+  if (_bits == 18) bitsToRead = 3;
+  uint32_t signBit = (1UL << (_bits -1));
+  uint32_t extendSign = ~(signBit -1);
+
+  if (_wire->requestFrom(_address, (uint8_t)bitsToRead) != bitsToRead)
+  {
+    //  _error = MCP3424_I2C_ERROR;
+    return 0;
+  }
+  if (bitsToRead == 3)
+  {
+    rv += _wire->read();
+    rv <<= 8;
+  }
+  rv += _wire->read();
+  rv <<= 8;
+  rv += _wire->read();
+  
+  //  handle sign bit.
+  if (rv & signBit)
+  {
+    //  sign extend 14 bits
+    rv |= extendSign;
+  }
+  return rv;
+}
+*/
+
+
 //  status bit/byte is not read.
 int32_t MCP3424::readRaw()
 {
