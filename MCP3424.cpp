@@ -29,7 +29,16 @@ MCP3424::MCP3424(uint8_t address, TwoWire *wire)
 
 bool MCP3424::begin()
 {
-  return isConnected();
+   //  set defaults
+  _gain = 1;
+  _bits = 12;
+  _config = 0x10;
+  if (isConnected())
+  {
+    writeConfig();
+    return true;
+  }
+  return false;
 }
 
 
@@ -237,7 +246,7 @@ int32_t MCP3424::readRaw()
   rv += _wire->read();
   rv <<= 8;
   rv += _wire->read();
-  
+
   //  handle sign bit.
   if (rv & signBit)
   {
@@ -296,7 +305,6 @@ int32_t MCP3424::readRaw()
     //  sign extend 18 bits
     rv |= 0xFFFFC000;
   }
-  //  
   if ((_bits == 16) && (rv & 0x8000))
   {
     //  sign extend 16 bits

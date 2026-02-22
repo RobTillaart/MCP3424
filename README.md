@@ -98,7 +98,8 @@ The MCP3421 and MCP3426 have a fixed address 0x68, one can order different
 addresses at the factory (see datasheet).
 
 The other devices have two address pins to set 8 addresses. 
-The trick used is to leave address pins floating. 
+The trick used is to leave address pins floating.
+
 See datasheet table 5.3 for details.
 
 
@@ -236,7 +237,6 @@ This might be added in the future.
   - redo interface for MCP3424 if needed.
 - investigate continuous vs single shot mode.
 - improve documentation
-  - Table of addresses.
 
 #### Should
 
@@ -252,6 +252,11 @@ This might be added in the future.
 
 #### Could
 
+- add error handling
+  - add error variable
+  - check return value **writeConfig()**.
+  - check read() process.
+  - int lastError();  //  private int error;  some constants?
 - implement maxResolution (combine with maxChannels? in one "maxValue" byte)
   - check range in **setResolution()**.
 - extract gain and resolution from the configuration byte to reduce storage.
@@ -259,15 +264,11 @@ This might be added in the future.
   - need to read 5 bytes... see par 5.3.3
 - extend examples
   - array of ADC's
-- add error handling
-  - add error variable
-  - check return value **writeConfig()**.
-  - check read() process.
-
 
 #### Wont
 
 - cache last read value. (difficult for wrappers)
+- Table of addresses ==> datasheet.
 
 
 ## Support
