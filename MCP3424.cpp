@@ -248,18 +248,18 @@ int32_t MCP3424::readRaw()
   rv <<= 8;
   rv += _wire->read();
   //  handle sign bit
-  if ((bits == 12) && (rv & 0x0800))
+  if ((_bits == 12) && (rv & 0x0800))
   {
     //  sign extend 20 bits
     rv |= 0xFFFFF000;
   }
-  if ((bits == 14) && (rv & 0x2000))
+  if ((_bits == 14) && (rv & 0x2000))
   {
     //  sign extend 18 bits
     rv |= 0xFFFFC000;
   }
   //  
-  if ((bits == 16) && (rv & 0x8000))
+  if ((_bits == 16) && (rv & 0x8000))
   {
     //  sign extend 16 bits
     rv |= 0xFFFF0000;
