@@ -1,7 +1,7 @@
 //
 //    FILE: MCP3424.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -120,7 +120,9 @@ bool MCP3424::setGain(uint8_t gain)
   if (_gain != gain)
   {
     _gain = gain;
-    _config &= 0xFC;  //  gain == 1
+    //  clear gain bits ==> gain == 1
+    _config &= 0xFC;
+    //  set gain bits for gain != 1
     if (_gain == 2)      _config |= 0x01;
     else if (_gain == 4) _config |= 0x02;
     else if (_gain == 8) _config |= 0x03;
@@ -228,7 +230,11 @@ int32_t MCP3424::readRaw()
     rv <<= 8;
     rv += _wire->read();
     //  handle sign bit.
-    if (rv & 0x00020000) rv |= 0xFFFC0000;
+    if (rv & 0x00020000)
+    {
+      //  sign extend 14 bits
+      rv |= 0xFFFC0000;
+    }
     return rv;
   }
 
@@ -241,7 +247,23 @@ int32_t MCP3424::readRaw()
   rv += _wire->read();
   rv <<= 8;
   rv += _wire->read();
-  //  handle sign bit not needed.
+  //  handle sign bit
+  if ((bits == 12) && (rv & 0x0800))
+  {
+    //  sign extend 20 bits
+    rv |= 0xFFFFF000;
+  }
+  if ((bits == 14) && (rv & 0x2000))
+  {
+    //  sign extend 18 bits
+    rv |= 0xFFFFC000;
+  }
+  //  
+  if ((bits == 16) && (rv & 0x8000))
+  {
+    //  sign extend 16 bits
+    rv |= 0xFFFF0000;
+  }
   return rv;
 }
 

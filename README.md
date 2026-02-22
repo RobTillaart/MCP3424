@@ -14,6 +14,7 @@
 
 Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 
+
 ## Description
 
 **Experimental**
@@ -40,6 +41,12 @@ Current implementation will probably change slightly in the future
 when related devices will be supported. (See future section).
 
 Feedback as always is welcome.
+
+
+### 0.2.0 breaking change
+
+Fixed issue 9, extend sign correctly makes pre 0.2.0 obsolete.
+
 
 ### Special chars
 
