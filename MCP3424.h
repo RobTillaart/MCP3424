@@ -26,6 +26,10 @@ public:
 
   //  GET DATA
   int32_t  read();
+  void     requestSingleShot();
+  bool     isReady();
+  uint32_t lastRead();
+
   //  wrappers
   float    readVolts();
   float    readMilliVolts();
@@ -56,6 +60,8 @@ protected:
   uint8_t   _gain;
   uint8_t   _bits;
   uint8_t   _config;
+  uint32_t  _lastRead;
+  int32_t   _raw;
 
   uint8_t   _address;
   TwoWire * _wire;

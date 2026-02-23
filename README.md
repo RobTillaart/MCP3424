@@ -174,11 +174,16 @@ The MCP3421/2/3/6/7/8 constructors have the same parameters.
 
 ### Read
 
-- **int32_t read()** returns the raw reading.
-- **float readVolts()** converts the raw reading to volts value (wrapper).
-- **float readMilliVolts()** converts the raw reading to millivolts value (wrapper).
+- **int32_t read()** returns the last raw ADC conversion.
+- **void requestSingleShot()** sets single shot mode and request a conversion.
+- **bool isReady()** calls read() and returns true if RDY flag LOW.
+Single shot mode only. (datasheet p 18)
+- **uint32_t lastRead()** returns last successful read in millis().
+Useful for periodic retrieving data.
+- **float readVolts()** calls read() and converts the raw reading to volts value.
+- **float readMilliVolts()** calls read() and converts the raw reading to millivolts value (wrapper).
 This is useful for small ranges.
-- **float readMicroVolts()** converts the raw reading to microvolts value (wrapper).
+- **float readMicroVolts()** calls read() and converts the raw reading to microvolts value (wrapper).
 This is useful for very small ranges (especially with a gain of 8 one has a
 resolution of about 2 microvolts.
 
@@ -218,8 +223,8 @@ See Resolution section above.
 ### Mode
 
 - **void setContinuousMode()** idem.
-- **void setSingleShotMode()** idem.
-- **uint8_t getMode()** returns 0 for singleShot and 1 for continuous.
+- **void setSingleShotMode()** sets the single shot mode and triggers conversion.
+- **uint8_t getMode()** returns 0 for singleShot and 1 for continuous mode.
 
 The set function write their changes directly to the device. It might be better
 to have one function to set all parameters in one call. To be investigated.
@@ -232,10 +237,9 @@ This might be added in the future.
 
 #### Must
 
-- investigate reading of ready flag
+- investigate redo API for all?
 - get hardware to test.
   - redo interface for MCP3424 if needed.
-- investigate continuous vs single shot mode.
 - improve documentation
 
 #### Should

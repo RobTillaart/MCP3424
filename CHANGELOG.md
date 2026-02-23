@@ -8,7 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.2.0] - 2026-02-22
 - fix #9, fix sign bit for 12, 14, 16 bit reads.
-- add writeConfig() of defaults in begin()
+- fix single shot interface
+- let **setSingleShotMode()** trigger single shot conversion.
+- add **triggerSingleShot()** trigger single shot conversion.
+- add **bool isReady()** single shot is ready.
+- add **writeConfig()** of defaults in **begin()**
+- add **uint32_t lastRead()**
 - add **MCP3421_ringBuffer16.ino**
 - add **MCP3421_exp_avg.ino**
 - minor edits
