@@ -80,8 +80,8 @@ void loop()
     lastRead = now;
     //  next line is for testing purpose
     //  use plotter to see phase shift.
-    //  raw = 65535 * sin(now * 1e-4);
-    raw = mcp.read();
+    raw = 32767 * sin(now * 1e-3);
+    //  raw = mcp.read();
     ring.add(raw);
     float avg = ring.average();
     float uV = avg * 15.625e-0;  //  18 bits  gain=1
