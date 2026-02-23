@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.2.0] - 2026-02-22
 - fix #9, fix sign bit for 12, 14, 16 bit reads.
 - add writeConfig() of defaults in begin()
-- add ringBuffer16 example
+- add **MCP3421_ringBuffer16.ino**
+- add **MCP3421_exp_avg.ino**
 - minor edits
 
 ----
