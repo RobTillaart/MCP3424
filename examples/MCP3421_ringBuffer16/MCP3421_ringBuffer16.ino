@@ -8,6 +8,8 @@
 //  this would mean you can get 2 extra bits by averaging 16 measurements.
 //  drawback is a phase shift (delay) in the temperatures read.
 //  so might be useful - or not.
+//
+//  make it visual with Serial plotter.
 
 #include "MCP3424.h"
 
@@ -68,6 +70,8 @@ void setup()
   }
 
   mcp.setResolution(16);
+  //  plotter header
+  Serial.println("16bit, 18bit, , ,");
 }
 
 
