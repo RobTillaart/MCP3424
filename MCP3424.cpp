@@ -354,6 +354,11 @@ MCP3423::MCP3423(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
   _maxChannels = 2;
 }
 
+MCP3425::MCP3425(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 1;
+}
+
 MCP3426::MCP3426(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
 {
   _maxChannels = 2;

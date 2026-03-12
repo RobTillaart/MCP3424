@@ -96,6 +96,12 @@ public:
 //
 //  max 16 bit
 //
+class MCP3425 : public MCP3424
+{
+public:
+  MCP3425(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
 class MCP3426 : public MCP3424
 {
 public:
